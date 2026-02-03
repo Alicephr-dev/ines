@@ -10,6 +10,49 @@ window.closeModal = (id) => {
   document.getElementById(id).style.display = "none";
 };
 
+window.openZoom = (imgSrc) => {
+  document.getElementById("zoom-img").src = imgSrc;
+  window.openModal("modal-zoom");
+};
+
+window.closeZoom = () => {
+  window.closeModal("modal-zoom");
+};
+
+// Variáveis para controlar clique vs segurar
+window.zoomHoldTimer = null;
+window.isHolding = false;
+
+window.startZoom = (imgSrc) => {
+  window.isHolding = false;
+  window.zoomHoldTimer = setTimeout(() => {
+    window.isHolding = true;
+    window.openZoom(imgSrc);
+  }, 300); // 300ms de espera antes de ampliar
+};
+
+window.stopZoom = () => {
+  clearTimeout(window.zoomHoldTimer);
+  if (window.isHolding) {
+    window.closeZoom();
+  }
+};
+
+// Event listeners para mouse
+document.addEventListener("mouseup", window.stopZoom);
+document.addEventListener("mouseleave", window.stopZoom);
+
+// Event listeners para touch
+document.addEventListener("touchend", window.stopZoom);
+
+// Fechar zoom ao clicar fora da imagem
+document.addEventListener("click", (e) => {
+  const zoomModal = document.getElementById("modal-zoom");
+  if (e.target === zoomModal) {
+    window.closeZoom();
+  }
+});
+
 window.showToast = (msg) => {
   let t = document.getElementById("toast-msg");
   t.innerText = msg;
@@ -98,7 +141,7 @@ window.loadPhotos = (query = "aesthetic") => {
   for (let i = 0; i < 40; i++) {
     const url = `https://loremflickr.com/400/${Math.floor(Math.random() * 200) + 300}/${query}?lock=${Math.floor(Math.random() * 9999)}`;
     feed.innerHTML += `<div class="photo-card">
-            <img src="${url}" onclick="window.openSave('${url}')">
+            <img src="${url}" onclick="window.openSave('${url}')" onmousedown="window.startZoom('${url}')" ontouchstart="window.startZoom('${url}')">
             <div class="overlay">
                 <button class="btn-save-img" onclick="window.openSave('${url}')">💾 Salvar</button>
                 <button class="btn-ia-report" onclick="window.reportIA(this)">🚫 Denunciar</button>
@@ -172,7 +215,7 @@ window.openFolder = (i) => {
         </div>
     </div>`;
   f.images.forEach((img, idx) => {
-    feed.innerHTML += `<div class="photo-card"><img src="${img}"><div class="overlay"><button class="btn-remove-photo" onclick="window.removePhoto(${i},${idx})">🗑️ Remover</button></div></div>`;
+    feed.innerHTML += `<div class="photo-card"><img src="${img}" onmousedown="window.startZoom('${img}')" ontouchstart="window.startZoom('${img}')"><div class="overlay"><button class="btn-remove-photo" onclick="window.removePhoto(${i},${idx})">🗑️ Remover</button></div></div>`;
   });
 };
 

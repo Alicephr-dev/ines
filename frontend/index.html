@@ -3,20 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Inês🐈</title>
+        <title>Inês Pinterest 🌸</title>
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <header class="navbar">
             <div class="logo-area" onclick="window.toggleView('home')">
-                <span class="logo">🐈</span>
+                <span class="logo">🌸</span>
                 <span class="user-name-logo">Inês</span>
             </div>
             <div class="search-bar">
                 <input
                     type="text"
                     id="search-input"
-                    placeholder="Pesquisar..."
+                    placeholder="Pesquisar gatinhos, Hello Kitty, desenhos..."
                 />
             </div>
             <div id="nav-auth" class="auth-menu"></div>
@@ -56,7 +56,7 @@
                 <span class="close" onclick="window.closeModal('modal-auth')"
                     >&times;</span
                 >
-                <h3 id="auth-title">Olá! 🐈‍⬛</h3>
+                <h3 id="auth-title">Olá! 🌸</h3>
                 <div id="auth-fields">
                     <input
                         type="text"
@@ -81,12 +81,12 @@
                     Continuar
                 </button>
                 <p style="font-size: 0.75rem; margin-top: 15px">
-                    <span id="auth-switch-text">Já tem conta?</span>
+                    <span id="auth-switch-text">Já tens conta?</span>
                     <a
                         href="javascript:void(0)"
                         onclick="window.switchAuthMode()"
                         id="auth-switch-link"
-                        style="color: var(--rosa-forte); font-weight: bold"
+                        style="color: var(--rosa-foforte); font-weight: bold"
                         >Entrar</a
                     >
                 </p>
@@ -142,6 +142,12 @@
                         Cancelar
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <div id="modal-zoom" class="modal">
+            <div class="zoom-container">
+                <img id="zoom-img" src="" />
             </div>
         </div>
 

@@ -1,5 +1,5 @@
 :root {
-    --rosa-forte: #ff91a4;
+    --rosa-foforte: #ff91a4;
     --rosa-claro: #ffc0cb;
     --rosa-fundo: #fff0f5;
     --texto-escuro: #333;
@@ -137,7 +137,7 @@ body {
 /* BOTÕES GLOBAIS */
 .btn-main {
     width: 100% !important;
-    background: var(--rosa-forte) !important;
+    background: var(--rosa-foforte) !important;
     color: white !important;
     border: none !important;
     padding: 12px !important;
@@ -161,7 +161,7 @@ body {
 }
 
 .btn-confirm {
-    background: var(--rosa-forte) !important;
+    background: var(--rosa-foforte) !important;
     color: white !important;
     border: none !important;
     padding: 10px 20px !important;
@@ -251,11 +251,11 @@ body {
 
 .folder-item:hover {
     background: var(--rosa-claro) !important;
-    border-color: var(--rosa-forte) !important;
+    border-color: var(--rosa-foforte) !important;
 }
 
 .folder-item span {
-    color: var(--rosa-forte);
+    color: var(--rosa-foforte);
     font-weight: bold;
 }
 
@@ -274,7 +274,7 @@ body {
     background: var(--rosa-claro);
     margin: 0 auto 15px;
     overflow: hidden;
-    border: 3px solid var(--rosa-forte);
+    border: 3px solid var(--rosa-foforte);
 }
 .profile-avatar-big img {
     width: 100%;
@@ -316,7 +316,7 @@ body {
 }
 
 .auth-input:focus {
-    border-color: var(--rosa-forte);
+    border-color: var(--rosa-foforte);
 }
 
 /* UPLOAD */
@@ -332,7 +332,7 @@ body {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
-    background: var(--rosa-forte);
+    background: var(--rosa-foforte);
     color: white;
     padding: 12px 30px;
     border-radius: 30px;
@@ -355,7 +355,7 @@ body {
     transition: 0.2s;
 }
 .close:hover {
-    color: var(--rosa-forte);
+    color: var(--rosa-foforte);
 }
 
 /* BOTÕES DE AÇÃO NA PASTA */
@@ -381,8 +381,8 @@ body {
 }
 
 .btn-rename-folder {
-    border-color: var(--rosa-forte) !important;
-    color: var(--rosa-forte) !important;
+    border-color: var(--rosa-foforte) !important;
+    color: var(--rosa-foforte) !important;
 }
 
 .btn-delete-folder:hover {
@@ -391,7 +391,7 @@ body {
 }
 
 .btn-rename-folder:hover {
-    background: var(--rosa-forte) !important;
+    background: var(--rosa-foforte) !important;
     color: white !important;
 }
 
@@ -415,7 +415,7 @@ body {
 .btn-back {
     background: none !important;
     border: none !important;
-    color: var(--rosa-forte) !important;
+    color: var(--rosa-foforte) !important;
     font-weight: bold !important;
     cursor: pointer !important;
     font-size: 0.95rem !important;
@@ -464,7 +464,7 @@ body {
 }
 
 #rename-input:focus {
-    border-color: var(--rosa-forte);
+    border-color: var(--rosa-foforte);
 }
 
 .rename-buttons {
@@ -484,7 +484,7 @@ body {
 }
 
 .rename-btn-save {
-    background: var(--rosa-forte) !important;
+    background: var(--rosa-foforte) !important;
     color: white !important;
 }
 
@@ -499,4 +499,37 @@ body {
 
 .rename-btn-cancel:hover {
     background: #d0d0d0 !important;
+}
+
+/* MODAL ZOOM */
+#modal-zoom {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.zoom-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+#zoom-img {
+    max-width: 85vw !important;
+    max-height: 85vh !important;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
 }
