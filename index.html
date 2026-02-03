@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-pt">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inês</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="navbar">
+            <div class="logo-area" onclick="window.toggleView('home')">
+                <span class="logo">🐈</span>
+                <span class="user-name-logo">Inês</span>
+            </div>
+            <div class="search-bar">
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Pesquisar..."
+                />
+            </div>
+            <div id="nav-auth" class="auth-menu"></div>
+        </header>
+
+        <main id="photo-feed" class="feed"></main>
+
+        <div id="modal-save" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="window.closeModal('modal-save')"
+                    >&times;</span
+                >
+                <div class="preview-container">
+                    <img id="img-preview" src="" />
+                </div>
+                <div id="dynamic-folder-list" class="folder-list"></div>
+                <div class="create-folder-area">
+                    <input
+                        type="text"
+                        id="new-folder-name"
+                        placeholder="Nova pasta..."
+                        class="auth-input"
+                    />
+                    <button onclick="window.addNewFolder()" class="btn-main">
+                        + Criar e Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-profile" class="modal">
+            <div class="modal-content" id="profile-card-content"></div>
+        </div>
+
+        <div id="modal-auth" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="window.closeModal('modal-auth')"
+                    >&times;</span
+                >
+                <h3 id="auth-title">Olá! 🐈‍⬛</h3>
+                <div id="auth-fields">
+                    <input
+                        type="text"
+                        id="reg-name"
+                        placeholder="Nome"
+                        class="auth-input"
+                    />
+                    <input
+                        type="email"
+                        id="reg-email"
+                        placeholder="E-mail"
+                        class="auth-input"
+                    />
+                    <input
+                        type="password"
+                        id="reg-pass"
+                        placeholder="Senha"
+                        class="auth-input"
+                    />
+                </div>
+                <button onclick="window.handleAuth()" class="btn-main">
+                    Continuar
+                </button>
+                <p style="font-size: 0.75rem; margin-top: 15px">
+                    <span id="auth-switch-text">Já tem conta?</span>
+                    <a
+                        href="javascript:void(0)"
+                        onclick="window.switchAuthMode()"
+                        id="auth-switch-link"
+                        style="color: var(--rosa-forte); font-weight: bold"
+                        >Entrar</a
+                    >
+                </p>
+            </div>
+        </div>
+
+        <div id="modal-confirm" class="modal">
+            <div class="modal-content mini-modal">
+                <p id="confirm-text"></p>
+                <div
+                    style="
+                        display: flex;
+                        gap: 10px;
+                        justify-content: center;
+                        margin-top: 15px;
+                    "
+                >
+                    <button id="btn-confirm-yes" class="btn-confirm">
+                        Sim
+                    </button>
+                    <button
+                        onclick="window.closeModal('modal-confirm')"
+                        class="btn-cancel"
+                    >
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-rename">
+            <div id="modal-rename-content">
+                <span class="close" onclick="window.closeRenameModal()"
+                    >&times;</span
+                >
+                <h3>✏️ Renomear Pasta</h3>
+                <input
+                    type="text"
+                    id="rename-input"
+                    placeholder="Novo nome..."
+                />
+                <div class="rename-buttons">
+                    <button
+                        class="rename-btn-save"
+                        onclick="window.saveRename()"
+                    >
+                        Guardar
+                    </button>
+                    <button
+                        class="rename-btn-cancel"
+                        onclick="window.closeRenameModal()"
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="modal-zoom"
+            onclick="if (event.target.id === 'modal-zoom') window.closeZoom();"
+        >
+            <div class="zoom-modal">
+                <button class="close-zoom" onclick="window.closeZoom()">
+                    &times;
+                </button>
+                <img id="zoom-img" src="" alt="Zoom" />
+            </div>
+        </div>
+
+        <div id="toast-msg"></div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
