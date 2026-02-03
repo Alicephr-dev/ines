@@ -145,9 +145,15 @@
             </div>
         </div>
 
-        <div id="modal-zoom" class="modal">
-            <div class="zoom-container">
-                <img id="zoom-img" src="" />
+        <div
+            id="modal-zoom"
+            onclick="if (event.target.id === 'modal-zoom') window.closeZoom();"
+        >
+            <div class="zoom-modal">
+                <button class="close-zoom" onclick="window.closeZoom()">
+                    &times;
+                </button>
+                <img id="zoom-img" src="" alt="Zoom" />
             </div>
         </div>
 

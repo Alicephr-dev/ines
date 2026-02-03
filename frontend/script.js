@@ -11,44 +11,42 @@ window.closeModal = (id) => {
 };
 
 window.openZoom = (imgSrc) => {
-  document.getElementById("zoom-img").src = imgSrc;
-  window.openModal("modal-zoom");
-};
+  console.log("Tentando abrir zoom com:", imgSrc);
+  const modal = document.getElementById("modal-zoom");
+  const img = document.getElementById("zoom-img");
 
-window.closeZoom = () => {
-  window.closeModal("modal-zoom");
-};
+  console.log("Modal encontrado?", !!modal);
+  console.log("Imagem encontrada?", !!img);
 
-// Variáveis para controlar clique vs segurar
-window.zoomHoldTimer = null;
-window.isHolding = false;
-
-window.startZoom = (imgSrc) => {
-  window.isHolding = false;
-  window.zoomHoldTimer = setTimeout(() => {
-    window.isHolding = true;
-    window.openZoom(imgSrc);
-  }, 300); // 300ms de espera antes de ampliar
-};
-
-window.stopZoom = () => {
-  clearTimeout(window.zoomHoldTimer);
-  if (window.isHolding) {
-    window.closeZoom();
+  if (modal && img) {
+    img.src = imgSrc;
+    modal.style.display = "flex";
+    console.log("Modal aberto");
+  } else {
+    console.log("Erro: modal ou imagem não encontrada");
   }
 };
 
-// Event listeners para mouse
-document.addEventListener("mouseup", window.stopZoom);
-document.addEventListener("mouseleave", window.stopZoom);
+window.closeZoom = () => {
+  console.log("Tentando fechar zoom");
+  const modal = document.getElementById("modal-zoom");
+  if (modal) {
+    modal.style.display = "none";
+    console.log("Modal fechado");
+  }
+};
 
-// Event listeners para touch
-document.addEventListener("touchend", window.stopZoom);
-
-// Fechar zoom ao clicar fora da imagem
+// Fechar ao clicar fora
 document.addEventListener("click", (e) => {
-  const zoomModal = document.getElementById("modal-zoom");
-  if (e.target === zoomModal) {
+  const modal = document.getElementById("modal-zoom");
+  if (e.target === modal) {
+    window.closeZoom();
+  }
+});
+
+// Fechar com ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
     window.closeZoom();
   }
 });
@@ -140,14 +138,42 @@ window.loadPhotos = (query = "aesthetic") => {
   }
   for (let i = 0; i < 40; i++) {
     const url = `https://loremflickr.com/400/${Math.floor(Math.random() * 200) + 300}/${query}?lock=${Math.floor(Math.random() * 9999)}`;
-    feed.innerHTML += `<div class="photo-card">
-            <img src="${url}" onclick="window.openSave('${url}')" onmousedown="window.startZoom('${url}')" ontouchstart="window.startZoom('${url}')">
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    card.innerHTML = `
+            <img src="${url}" class="feed-img" data-zoom="${url}">
             <div class="overlay">
-                <button class="btn-save-img" onclick="window.openSave('${url}')">💾 Salvar</button>
-                <button class="btn-ia-report" onclick="window.reportIA(this)">🚫 Denunciar</button>
+                <button class="btn-save-img" data-save="${url}">💾 Salvar</button>
+                <button class="btn-ia-report">🚫 Denunciar</button>
             </div>
-        </div>`;
+        `;
+    feed.appendChild(card);
   }
+
+  // Adicionar listeners após criar elementos
+  document.querySelectorAll(".feed-img").forEach((img) => {
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      console.log("Imagem clicada:", img.dataset.zoom);
+      window.openZoom(img.dataset.zoom);
+    });
+  });
+
+  document.querySelectorAll(".btn-save-img").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.openSave(btn.dataset.save);
+    });
+  });
+
+  document.querySelectorAll(".btn-ia-report").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.reportIA(btn);
+    });
+  });
+
+  console.log("Event listeners adicionados");
 };
 
 window.reportIA = (el) => {
@@ -196,10 +222,14 @@ window.renderGallery = () => {
     ? ""
     : "<h2 style='grid-column:1/-1; text-align:center;'>Nenhuma pasta. 🌸</h2>";
   window.myFolders.forEach((f, i) => {
-    feed.innerHTML += `<div class="photo-card" onclick="window.openFolder(${i})">
-            <img src="${f.images[0] || "https://via.placeholder.com/400x300?text=Sem+fotos"}" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+fotos'">
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    card.onclick = () => window.openFolder(i);
+    card.innerHTML = `
+            <img src="${f.images[0] || "https://via.placeholder.com/400x300?text=Sem+fotos"}" class="folder-thumb" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+fotos'">
             <div style="padding:10px; text-align:center;"><h3>${f.name}</h3><p>${f.images.length} fotos</p></div>
-        </div>`;
+        `;
+    feed.appendChild(card);
   });
 };
 
@@ -214,8 +244,34 @@ window.openFolder = (i) => {
             <button onclick="window.deleteFolder(${i})" class="btn-delete-folder">🗑️ Excluir</button>
         </div>
     </div>`;
+
   f.images.forEach((img, idx) => {
-    feed.innerHTML += `<div class="photo-card"><img src="${img}" onmousedown="window.startZoom('${img}')" ontouchstart="window.startZoom('${img}')"><div class="overlay"><button class="btn-remove-photo" onclick="window.removePhoto(${i},${idx})">🗑️ Remover</button></div></div>`;
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    card.innerHTML = `
+            <img src="${img}" class="folder-img" data-zoom="${img}">
+            <div class="overlay">
+                <button class="btn-remove-photo" data-remove="${idx}">🗑️ Remover</button>
+            </div>
+        `;
+    feed.appendChild(card);
+  });
+
+  // Listeners para imagens da pasta
+  document.querySelectorAll(".folder-img").forEach((img) => {
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.openZoom(img.dataset.zoom);
+    });
+  });
+
+  // Listeners para remover foto
+  document.querySelectorAll(".btn-remove-photo").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const idx = btn.dataset.remove;
+      window.removePhoto(i, idx);
+    });
   });
 };
 
@@ -325,14 +381,62 @@ window.switchAuthMode = () => {
 window.toggleView = (v) =>
   v === "home" ? location.reload() : window.renderGallery();
 
+// Event listener global para qualquer clique
+document.addEventListener("click", (e) => {
+  console.log("Clique detectado em:", e.target.className);
+
+  // Se clicar em qualquer coisa dentro de photo-card, tenta abrir zoom
+  const photoCard = e.target.closest(".photo-card");
+  if (
+    photoCard &&
+    !e.target.classList.contains("btn-save-img") &&
+    !e.target.classList.contains("btn-ia-report") &&
+    !e.target.classList.contains("btn-remove-photo")
+  ) {
+    // Não abre zoom se for um clique duplo ou se for em um link/botão
+    if (e.target.tagName !== "BUTTON" && !window.isEnteringFolder) {
+      console.log("Clique em photo-card detectado!");
+      const img = photoCard.querySelector("img");
+      if (img && !img.classList.contains("folder-thumb")) {
+        const url = img.src;
+        console.log("Abrindo zoom com URL:", url);
+        window.openZoom(url);
+      }
+    }
+  }
+
+  if (e.target.classList.contains("btn-save-img")) {
+    console.log("Clique em salvar");
+    const photoCard = e.target.closest(".photo-card");
+    const url = photoCard.querySelector("img").src;
+    window.openSave(url);
+  }
+
+  if (e.target.classList.contains("btn-ia-report")) {
+    console.log("Clique em denunciar");
+    window.reportIA(e.target);
+  }
+
+  if (e.target.classList.contains("btn-remove-photo")) {
+    console.log("Clique em remover");
+    window.removePhoto(
+      window.currentFolderIndex,
+      parseInt(e.target.dataset.remove),
+    );
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded disparado");
   const nav = document.getElementById("nav-auth");
   if (localStorage.getItem("is_logged") === "true" && window.userProfile) {
     nav.innerHTML = `<div onclick="window.openProfile()" style="cursor:pointer; display:flex; align-items:center; gap:10px;"><b>${window.userProfile.name}</b><div class="nav-avatar-circle" style="width:35px; height:35px; border-radius:50%; background:#ffc0cb; overflow:hidden;"><img src="${window.userProfile.avatar}" style="width:100%; height:100%; object-fit:cover; display:${window.userProfile.avatar ? "block" : "none"}"></div></div>`;
   } else {
     nav.innerHTML = `<button onclick="window.openModal('modal-auth')" class="btn-main" style="width:auto; padding:8px 15px">Entrar</button>`;
   }
+  console.log("Chamando loadPhotos");
   window.loadPhotos();
+  console.log("loadPhotos chamado");
   document.getElementById("search-input").addEventListener("keypress", (e) => {
     if (e.key === "Enter") window.loadPhotos(e.target.value);
   });
