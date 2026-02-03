@@ -13,7 +13,7 @@ for (let i = 0; i < 15; i++) {
     placeholderPhotos[Math.floor(Math.random() * placeholderPhotos.length)];
   const card = `
         <div class="photo-card">
-            <img src="${randomImg}" alt="Foto">
+            <img src="${randomImg}" alt="Gatinho">
             <div class="overlay">
                 <button class="save-btn">Salvar</button>
                 <button class="report-ia-btn">🔴IA</button>
