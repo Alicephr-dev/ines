@@ -1,41 +1,79 @@
+let myFolders = ["Gatinhos", "Favoritos", "Ideias Inês"];
+
 function loadPhotos() {
-  const feed = document.getElementById('photo-feed');
-  if(!feed) return;
+  const feed = document.getElementById("photo-feed");
+  if (!feed) return;
 
-  feed.innerHTML = '';
-
+  feed.innerHTML = "";
   for (let i = 0; i < 20; i++) {
-    const randomId = Math.floor(Math.randomm() * 1000);
-    const imgUrl = 'https://placekitten.com/${300 + i}/${400 + i}';
+    const randomId = Math.floor(Math.random() * 5000);
+    const imgUrl = `https://loremflickr.com/400/${400 + (i % 3) * 100}/cat?lock=${randomId}`;
 
-    const card = '
-      <div class="photo-card" data-id="${randomId}">
-        <img src="${imgUrl" alt="Gatinho">
-        <div class="overlay">
-        <button class="save-btn" onclick="openModal('${imgUrl}')">Salvar</button>
-        <button class="report-ia-btn" onclick="reportIA('${randomId}')" title="Denunciar IA">🔴IA</button>
-        </div>
-      </div>
-      ';
+    const card = document.createElement("div");
+    card.className = "photo-card";
+    card.innerHTML = `
+            <img src="${imgUrl}" alt="Gatinho">
+            <div class="overlay">
+                <button class="save-btn">Salvar</button>
+                <button class="report-ia-btn" title="Denunciar IA">🔴</button>
+            </div>
+        `;
+
+    card.querySelector(".save-btn").onclick = () => openSave(imgUrl);
+    card.querySelector(".report-ia-btn").onclick = () => {
+      if (confirm("Bloquear esta imagem de IA?")) card.remove();
+    };
+
+    feed.appendChild(card);
   }
 }
 
-function reportIA(imageId) {
-  const card = document.querySelector('[data-id="${imageId}"]');
-  if (confirm("Inês, quer bloquear essa imagem de IA?")) {
-    card.style.opacity = '0';
-    setTimeout(() => card.remove(), 300);
-    console.log("ID denunciado para o banco:", imageId);
+function openSave(url) {
+  document.getElementById("img-preview").src = url;
+  document.getElementById("modal-save").style.display = "flex";
+  renderFolders();
+}
+
+function renderFolders() {
+  const list = document.getElementById("dynamic-folder-list");
+  list.innerHTML = "";
+  myFolders.forEach((folder) => {
+    const btn = document.createElement("button");
+    btn.className = "folder-item";
+    btn.innerText = folder;
+    btn.onclick = () => {
+      alert(`Salvo em ${folder}!`);
+      closeModal("modal-save");
+    };
+    list.appendChild(btn);
+  });
+}
+
+function addNewFolder() {
+  const input = document.getElementById("new-folder-name");
+  const name = input.value.trim();
+  if (name) {
+    myFolders.push(name);
+    input.value = "";
+    renderFolders();
+    alert(`Pasta "${name}" criada!`);
   }
 }
 
-    function openModal(imgUrl) {
-      document.getElementById('modal-save').style.display = 'flex';
-      document.getElementById('img-preview').src = imgUrl;
-    }
+function openAuth(type) {
+  document.getElementById("auth-title").innerText =
+    type === "login" ? "Bem-vinda de volta!" : "Criar conta🐈‍⬛";
+  document.getElementById("modal-auth").style.display = "flex";
+}
 
-    function closeModal() {
-      document.getElementById('modal-save').style.display = 'none';
-    }
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
 
-    window.onload = loadPhotos;
+window.onclick = (event) => {
+  if (event.target.classList.contains("modal")) {
+    event.target.style.display = "none";
+  }
+};
+
+document.addEventListener("DOMContentLoaded", loadPhotos);

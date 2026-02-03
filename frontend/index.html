@@ -12,54 +12,83 @@
                 <span class="logo">🐈</span>
                 <span class="user-name">Inês</span>
             </div>
+
             <div class="search-bar">
-                <input type="text" placeholder="Pesquisar" />
+                <input
+                    type="text"
+                    id="main-search"
+                    placeholder="Pesquisar coisas que você ama..."
+                />
             </div>
+
             <div class="auth-menu">
-                <button class="btn-login">Entrar</button>
-                <button class="btn-signup">Criar conta</button>
-                <div class="avatar">I</div>
+                <button class="btn-login" onclick="openAuth('login')">
+                    Entrar
+                </button>
+                <button class="btn-signup" onclick="openAuth('signup')">
+                    Criar conta
+                </button>
             </div>
         </header>
 
-        <main class="feed" id="photo-feed">
-            <div class="photo-card">
+        <main id="photo-feed" class="feed"></main>
+
+        <div id="modal-save" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal-save')"
+                    >&times;</span
+                >
                 <img
-                    src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=400&q=80"
-                    alt="Gatinho"
+                    id="img-preview"
+                    class="img-preview-large"
+                    src=""
+                    alt="Ampliada"
                 />
-                <div class="overlay">
-                    <button class="save-btn">Salvar</button>
-                    <button class="report-ia-btn" title="Denunciar IA">
-                        🔴IA
+
+                <h3>Salvar em:</h3>
+                <div id="dynamic-folder-list" class="folder-list"></div>
+
+                <div class="create-folder-area">
+                    <input
+                        type="text"
+                        id="new-folder-name"
+                        placeholder="Nome da nova pasta..."
+                        class="auth-input"
+                    />
+                    <button onclick="addNewFolder()" class="btn-save-new">
+                        + Criar e Salvar
                     </button>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <div id="modal-save" class="modal">
-            🔴
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h3>Salvar na pasta</h3>
-                <img
-                    id="img-preview"
-                    src=""
-                    alt="Preview"
-                    style="
-                        width: 100px;
-                        border-radius: 10px;
-                        margin-bottom: 15px;
-                    "
-                />
-
-                <div class="folder-list">
-                    <button class="folder-item">Gatinhos daoras</button>
-                    <button class="folder-item">Decoração</button>
-                    <button class="folder-item">Criar nova pasta</button>
+        <div id="modal-auth" class="modal">
+            <div class="modal-content auth-card">
+                <span class="close" onclick="closeModal('modal-auth')"
+                    >&times;</span
+                >
+                <h2 id="auth-title">Olá, amor!</h2>
+                <div class="auth-form">
+                    <input
+                        type="email"
+                        placeholder="Seu email"
+                        class="auth-input"
+                    />
+                    <input
+                        type="password"
+                        placeholder="Sua senha"
+                        class="auth-input"
+                    />
+                    <button
+                        class="btn-signup"
+                        style="width: 100%; margin-top: 10px"
+                    >
+                        Continuar
+                    </button>
                 </div>
             </div>
         </div>
+
         <script src="script.js"></script>
     </body>
 </html>
