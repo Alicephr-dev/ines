@@ -104,9 +104,9 @@ window.editProfileMode = () => {
   content.innerHTML = `
         <span class="close" onclick="window.openProfile()">&larr; Voltar</span>
         <h3 style="margin-top:25px;">Editar Perfil</h3>
-        <label style="font-size:0.7rem; font-weight:bold; color:var(--rosa-foforte); display:block; text-align:left;">NOME</label>
+        <label style="font-size:0.7rem; font-weight:bold; color:var(--rosa-forte); display:block; text-align:left;">NOME</label>
         <input type="text" id="edit-name" value="${window.userProfile.name}" class="auth-input">
-        <label style="font-size:0.7rem; font-weight:bold; color:var(--rosa-foforte); display:block; text-align:left;">USUÁRIO</label>
+        <label style="font-size:0.7rem; font-weight:bold; color:var(--rosa-forte); display:block; text-align:left;">USUÁRIO</label>
         <input type="text" id="edit-user" value="${window.userProfile.user}" class="auth-input">
         <label for="file-upload" class="btn-upload" style="display:block; border:2px dashed #ffc0cb; padding:10px; border-radius:10px; cursor:pointer; margin-bottom:10px; font-size:0.8rem;">📁 Mudar Foto</label>
         <input type="file" id="file-upload" accept="image/*" style="display:none">
@@ -118,7 +118,7 @@ window.saveProfile = () => {
   window.userProfile.name = document.getElementById("edit-name").value;
   window.userProfile.user = document.getElementById("edit-user").value;
   localStorage.setItem("ines_profile", JSON.stringify(window.userProfile));
-  window.showToast("Perfil salvo! ✨");
+  window.showToast("Perfil salvo! 🤍");
   setTimeout(() => location.reload(), 500);
 };
 
@@ -220,7 +220,7 @@ window.renderGallery = () => {
   const feed = document.getElementById("photo-feed");
   feed.innerHTML = window.myFolders.length
     ? ""
-    : "<h2 style='grid-column:1/-1; text-align:center;'>Nenhuma pasta. 🌸</h2>";
+    : "<h2 style='grid-column:1/-1; text-align:center;'>Nenhuma pasta.</h2>";
   window.myFolders.forEach((f, i) => {
     const card = document.createElement("div");
     card.className = "photo-card";
@@ -366,13 +366,13 @@ window.switchAuthMode = () => {
   const fields = document.getElementById("auth-fields");
 
   if (window.authMode === "login") {
-    titleEl.innerText = "Bem-vindo de volta! 🌸";
-    switchText.innerText = "Não tens conta?";
+    titleEl.innerText = "Bem-vindo de volta! 🤍";
+    switchText.innerText = "Não tem conta?";
     switchLink.innerText = "Criar Conta";
     fields.innerHTML = `<input type="email" id="reg-email" placeholder="E-mail" class="auth-input"><input type="password" id="reg-pass" placeholder="Senha" class="auth-input">`;
   } else {
-    titleEl.innerText = "Olá! 🌸";
-    switchText.innerText = "Já tens conta?";
+    titleEl.innerText = "Olá! 🤍";
+    switchText.innerText = "Já tem conta?";
     switchLink.innerText = "Entrar";
     fields.innerHTML = `<input type="text" id="reg-name" placeholder="Nome" class="auth-input"><input type="email" id="reg-email" placeholder="E-mail" class="auth-input"><input type="password" id="reg-pass" placeholder="Senha" class="auth-input">`;
   }
