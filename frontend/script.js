@@ -1,24 +1,41 @@
-const feed = document.getElementById("photo-feed");
+function loadPhotos() {
+  const feed = document.getElementById('photo-feed');
+  if(!feed) return;
 
-const placeholderPhotos = [
-  "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1533733501017-cf7d79982536?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=400&q=80",
-  "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?auto=format&fit=crop&w=400&q=80",
-];
+  feed.innerHTML = '';
 
-for (let i = 0; i < 15; i++) {
-  const randomImg =
-    placeholderPhotos[Math.floor(Math.random() * placeholderPhotos.length)];
-  const card = `
-        <div class="photo-card">
-            <img src="${randomImg}" alt="Gatinho">
-            <div class="overlay">
-                <button class="save-btn">Salvar</button>
-                <button class="report-ia-btn">🔴IA</button>
-            </div>
+  for (let i = 0; i < 20; i++) {
+    const randomId = Math.floor(Math.randomm() * 1000);
+    const imgUrl = 'https://placekitten.com/${300 + i}/${400 + i}';
+
+    const card = '
+      <div class="photo-card" data-id="${randomId}">
+        <img src="${imgUrl" alt="Gatinho">
+        <div class="overlay">
+        <button class="save-btn" onclick="openModal('${imgUrl}')">Salvar</button>
+        <button class="report-ia-btn" onclick="reportIA('${randomId}')" title="Denunciar IA">🔴IA</button>
         </div>
-    `;
-  feed.innerHTML += card;
+      </div>
+      ';
+  }
 }
+
+function reportIA(imageId) {
+  const card = document.querySelector('[data-id="${imageId}"]');
+  if (confirm("Inês, quer bloquear essa imagem de IA?")) {
+    card.style.opacity = '0';
+    setTimeout(() => card.remove(), 300);
+    console.log("ID denunciado para o banco:", imageId);
+  }
+}
+
+    function openModal(imgUrl) {
+      document.getElementById('modal-save').style.display = 'flex';
+      document.getElementById('img-preview').src = imgUrl;
+    }
+
+    function closeModal() {
+      document.getElementById('modal-save').style.display = 'none';
+    }
+
+    window.onload = loadPhotos;
